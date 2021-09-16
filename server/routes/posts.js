@@ -38,9 +38,14 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
     try {
-        const updatedPost = await Post.updateOne({ _id: req.params.id}, { $set: { 
-            title: req.body.title,
-            groups: req.body.groups,
+        console.log(req.body);
+        const updatedPost = await Post.updateOne({ _id: req.params.id }, 
+            { $set: { 
+                title: req.body.title,
+                groups: req.body.groups,
+            },
+            $push: {
+                teams: req.body.teams,
             }
         })
         res.json(updatedPost)
@@ -48,5 +53,17 @@ router.patch('/:id', async (req, res) => {
         console.log(err);
     }
 });
+
+// router.patch('team/:id', async (res, req) => {
+//     try {
+//         const newTeam = await Post.updateOne({ _id: req.params.id }, { $set: {
+//             teams: req.body.teams,
+//             }
+//         })
+//         res.json(newTeam);
+//     } catch (err) {
+//         console.log(err);
+//     }
+// })
 
 module.exports = router;
