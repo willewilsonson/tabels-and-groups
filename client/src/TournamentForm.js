@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './TournamentForm.css';
 
-const id = '61434d44e34d661a5bc936a8';
-
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-const TournamentForm = ({ setData }) => {
+const TournamentForm = ({ id, setData }) => {
     const[title, setTitle] = useState('');
     const[groups, setGroups] = useState([]);
     const[groupsQuantity, setGroupsQuantity] = useState(0);

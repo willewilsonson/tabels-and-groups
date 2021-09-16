@@ -1,11 +1,7 @@
 import axios from "axios";
 import './Groups.css'
 
-const id = '61434d44e34d661a5bc936a8';
-
-
-
-const Groups = ({ data, setData }) => {
+const Groups = ({ id, data, setData }) => {
 
     const deleteTeam = e => {
         e.preventDefault();

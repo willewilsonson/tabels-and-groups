@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const id = '61434d44e34d661a5bc936a8';
-
-const TeamForm = ({ data, setData }) => {
+const TeamForm = ({ id, data, setData }) => {
     const[team, setTeam] = useState({
         teamName: '',
         playedGames: 0,

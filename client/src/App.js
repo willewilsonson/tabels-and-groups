@@ -18,9 +18,9 @@ function App() {
   return (
     <div className='App'> 
       <div>Name: {data.title}</div>
-      <Groups data={data} setData={setData}/>
-      <TournamentForm setData={setData}/>
-      <TeamForm data={data} setData={setData}/>
+      <Groups id={id} data={data} setData={setData}/>
+      <TournamentForm id={id} setData={setData}/>
+      <TeamForm id={id} data={data} setData={setData}/>
     </div>
   );
 }
