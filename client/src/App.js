@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const id = '6141e35a4b30db019bf2eaa5';
+const id = '61434d44e34d661a5bc936a8';
 
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
@@ -58,11 +58,24 @@ function App() {
     .then(res => setData(res));
   }
 
+  const deleteTeam = e => {
+    e.preventDefault();
+    console.log(e.target.value);
+    axios.patch(`posts/deleteTeam/${id}`, {
+      teams: e.target.value,
+    })
+    .then(res => setData(res));
+  }
+
   return (
     <div className='App'> 
       <div>Name: {data.title}</div>
-      <div>Groups: {data.groups?.map((g, i) => <p key={i}>{g}</p>)}</div>
-      <div>{data.teams?.map((team, i) => <div key={i}>{team.teamName}</div>)}</div>
+      <div>Groups: 
+        {data.groups?.map((g, i) => 
+          <div className='group-container' key={i}>{g} {data.teams?.map((team, i) => 
+            team.group === g ? <div className='team-container'><p key={i}>{team.teamName}</p><button value={i}onClick={(e) => deleteTeam(e)}>X</button></div> : '')}
+          </div>)}
+      </div>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input 

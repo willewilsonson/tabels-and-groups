@@ -1,4 +1,5 @@
 const express = require('express');
+const { find, update } = require('../models/Post');
 const Post = require('../models/Post');
 
 const router = express.Router();
@@ -14,8 +15,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const test = await Post.findById(req.params.id);
-        res.json(test);
+        const table = await Post.findById(req.params.id);
+        res.json(table);
     } catch (err) {
         console.log(err);
     }
@@ -47,8 +48,25 @@ router.patch('/:id', async (req, res) => {
             $push: {
                 teams: req.body.teams,
             }
-        })
+        });
         res.json(updatedPost)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.patch('/deleteTeam/:id', async (req, res) => {
+    try {
+        console.log(req.body.teams);
+        const table = await Post.find({ _id: req.params.id });
+        const removeTeam = table[0].teams.filter((team, i) => i != req.body.teams ? team : false)
+        const updatedPost = await Post.updateOne({_id: req.params.id}, 
+            { $set: {
+                teams: removeTeam,
+            }
+        })
+        console.log(removeTeam);
+        res.json(updatedPost);
     } catch (err) {
         console.log(err);
     }
