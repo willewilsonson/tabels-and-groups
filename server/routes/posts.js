@@ -72,6 +72,10 @@ router.patch('/deleteTeam/:id', async (req, res) => {
     }
 });
 
+router.get('/matches/:id', (req, res) => {
+    
+});
+
 // router.patch('team/:id', async (res, req) => {
 //     try {
 //         const newTeam = await Post.updateOne({ _id: req.params.id }, { $set: {

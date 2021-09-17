@@ -14,6 +14,10 @@ const PostSchema = mongoose.Schema({
         goalDifference: Number,
         points: Number,
         group: String,
+    matches: [{
+        teams: Array,
+        score: Array,
+    }]
     }]
 });
 
