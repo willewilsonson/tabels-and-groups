@@ -17,6 +17,9 @@ const TeamForm = ({ id, data, setData }) => {
 
       const handleTeamSubmit = e => {
         e.preventDefault();
+        if (team.group === '') {
+          return alert('Place the team in a group');
+        }
         console.log(team);
         axios.patch(`posts/${id}`, {
           teams: team,
