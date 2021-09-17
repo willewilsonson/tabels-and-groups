@@ -21,6 +21,7 @@ function App() {
       <Groups id={id} data={data} setData={setData}/>
       <TournamentForm id={id} setData={setData}/>
       <TeamForm id={id} data={data} setData={setData}/>
+      <button>Start tournament</button>
     </div>
   );
 }

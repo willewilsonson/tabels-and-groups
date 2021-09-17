@@ -6,16 +6,3 @@ body {
 .App {
   text-align: center;
 }
-
-.group-container {
-  display: flex;
-  flex-direction: column;
-  border: 2px solid;
-  margin: 10px;
-}
-
-.team-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}

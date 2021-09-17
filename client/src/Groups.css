@@ -1,0 +1,12 @@
+.group-container {
+    margin: 10px auto;
+    border: 2px solid;
+}
+
+.group-name {
+    margin: 10px auto;
+}
+
+.team-container {
+    border-bottom: 1px solid;
+}

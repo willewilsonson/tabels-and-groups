@@ -14,10 +14,36 @@ const Groups = ({ id, data, setData }) => {
 
     return(
         <div>Groups: 
-        {data.groups?.map((g, i) => 
-          <div className='group-container' key={i}>{g} {data.teams?.map((team, i) => 
-            team.group === g ? <div className='team-container' key={i}><p>{team.teamName}</p><button value={i}onClick={(e) => deleteTeam(e)}>X</button></div> : '')}
-          </div>)}
+            {data.groups?.map((g, i) => 
+            <div>
+                <span className="group-name">{g}</span>
+                <table className='group-container' key={i}>
+                    <tr>
+                        <th>Name</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>SG</th>
+                        <th>CG</th>
+                        <th>GD</th>
+                        <th>P</th>
+                    </tr>
+                    {data.teams?.map((team, i) => team.group === g
+                    ? <tr className='team-container' key={i}>
+                        <td>{team.teamName}</td>
+                        <td>{team.wins}</td>
+                        <td>{team.draws}</td>
+                        <td>{team.losses}</td>
+                        <td>{team.scoredGoals}</td>
+                        <td>{team.concededGoals}</td>
+                        <td>{team.goalDifference}</td>
+                        <td>{team.points}</td>
+                        <button value={i}onClick={(e) => deleteTeam(e)}>X</button>
+                    </tr> 
+                    : '')}
+            </table>
+          </div>
+          )}
       </div>
     )
 }
