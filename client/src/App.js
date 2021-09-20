@@ -17,18 +17,14 @@ function App() {
       .then(res => setData(res.data));
   }, [data])
 
-  const startTournament = () => {
-    
-  };
-
   return (
     <div className='App'> 
       <div>Name: {data.title}</div>
       <Groups id={id} data={data} setData={setData}/>
       <TournamentForm id={id} setData={setData}/>
       <TeamForm id={id} data={data} setData={setData}/>
-      <button onClick={() => setShowSchedule(true)}>Start tournament</button>
-      <Schedule showSchedule={showSchedule} data={data}/>
+      <button onClick={() => showSchedule ? setShowSchedule(false) : setShowSchedule(true)}>Start tournament</button>
+      {showSchedule ? <Schedule showSchedule={showSchedule} data={data}/> : ''}
     </div>
   );
 }

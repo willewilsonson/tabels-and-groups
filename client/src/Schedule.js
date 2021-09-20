@@ -1,32 +1,42 @@
 import { useState, useEffect } from 'react';
 
+const teams = [];
+const gameOrder = [];
+
 const Schedule = ({ showSchedule, data }) => {
-    const[roundsQuantity, setRoundsQuantity] = useState(data.teams?.length);
+    const[roundsQuantity, setRoundsQuantity] = useState(data.teams?.length - 1);
     const[rounds, setRounds] = useState([]);
 
-    const roundsArray = [];
-
-    useEffect(() => {
-        if (showSchedule) {
-            setRoundsQuantity(data.teams?.length - 1)
+    function splitIntoGames(arr, len) {
+        let chunks = [], i = 0, n = arr.length;
+        while (i < n) {
+          chunks.push(arr.slice(i, i += len));
         }
-    }, [data]);
-
+        console.log(chunks);
+        setRounds(chunks);
+      }
+    
     useEffect(() => {
-        console.log(showSchedule);
-    }, [showSchedule])
-
-    useEffect(() => {
-        for (let i = 0; i < roundsArray.length; i++) {
-            roundsArray.push(i+1);
+        if (teams.length === 0) {
+            data.teams.map(team => teams.push(team.teamName));
         }
-        setRounds(roundsArray)
-    }, [showSchedule])
+    }, [data])
+
+    useEffect(() => {
+        // console.log(roundsQuantity);
+        if (roundsQuantity > 0) {
+            teams.map((team) => gameOrder.push(team));
+            teams.push(teams.shift());
+            setRoundsQuantity(roundsQuantity - 1)
+        } if (roundsQuantity === 0) {
+            console.log(gameOrder);
+            splitIntoGames(gameOrder, 2);
+        }
+    }, [roundsQuantity]);
 
     return(
         <div>
-            <div>{roundsQuantity}</div>
-            <div>{data.teams?.map((team, i, teams) => <div key={i}>{team.teamName} - {teams[i+1]?.teamName}</div>)}</div>
+            <div>{rounds.map(team => <p>{team[0]} - {team[1]}</p>)}</div>
         </div>
     )
 }
