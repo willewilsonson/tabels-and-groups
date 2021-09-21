@@ -1,7 +1,9 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import './Groups.css'
+import Schedule from './Schedule';
 
-const Groups = ({ id, data, setData }) => {
+const Groups = ({ id, data, setData, showSchedule }) => {
 
     const deleteTeam = e => {
         e.preventDefault();
@@ -47,9 +49,10 @@ const Groups = ({ id, data, setData }) => {
                         </tr>
                     </tbody>
                     : '')}
-            </table>
-          </div>
-          )}
+                </table>
+                {showSchedule ? <Schedule id={id} data={data} setData={setData}/> : ''}
+            </div>
+            )}
       </div>
     )
 }

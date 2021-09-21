@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TeamForm = ({ id, data, setData }) => {
@@ -17,6 +17,9 @@ const TeamForm = ({ id, data, setData }) => {
 
       const handleTeamSubmit = e => {
         e.preventDefault();
+        if (team.teamName === '') {
+          return alert('Give the team a name');
+        }
         if (team.group === '') {
           return alert('Place the team in a group');
         }
@@ -37,7 +40,7 @@ const TeamForm = ({ id, data, setData }) => {
           value={data.teamName}
         />
         <select name='group' value={team.group} onChange={(e) => setTeam( {...team, [e.target.name]: e.target.value })}>
-          <option>-- Choose a group --</option>
+          <option value=''>-- Choose a group --</option>
           {data.groups?.map((group, i) => <option value={group} key={i}>{group}</option>)}
         </select>
         <button>+</button>

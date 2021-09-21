@@ -40,10 +40,12 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         console.log(req.body);
+        // console.log(req.params.id);
         const updatedPost = await Post.updateOne({ _id: req.params.id }, 
             { $set: { 
                 title: req.body.title,
                 groups: req.body.groups,
+                matches: req.body.matches,
             },
             $push: {
                 teams: req.body.teams,
@@ -73,7 +75,7 @@ router.patch('/deleteTeam/:id', async (req, res) => {
 });
 
 router.get('/matches/:id', (req, res) => {
-    
+
 });
 
 // router.patch('team/:id', async (res, req) => {

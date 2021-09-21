@@ -15,10 +15,7 @@ const PostSchema = mongoose.Schema({
         points: Number,
         group: String,
     }],
-    matches: [{
-        teams: Array,
-        score: Array,
-    }]
+    matches: Array,
 });
 
 module.exports = mongoose.model('Posts', PostSchema);
