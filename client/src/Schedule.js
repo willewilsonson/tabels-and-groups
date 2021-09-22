@@ -62,7 +62,7 @@ const Schedule = ({ id, showSchedule, data }) => {
 
     return(
         <div>
-            {/* <div>{rounds.map(team => <p>{team[0].teamName} - {team[1].teamName}</p>)}</div> */}
+            <div>{rounds.map((team, i) => <p key={i}>{team[0].teamName} - {team[1].teamName}</p>)}</div>
         </div>
     )
 }
