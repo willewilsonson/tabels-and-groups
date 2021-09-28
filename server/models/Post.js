@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 //
 const PostSchema = mongoose.Schema({
     title: String,
-    groups: Array,
+    groups: [],
     teams: [{
         teamName: String,
         playedGames: Number,
@@ -15,7 +15,10 @@ const PostSchema = mongoose.Schema({
         points: Number,
         group: String,
     }],
-    matches: Array,
+    groupSchedule: [{
+        group: String,
+        matches: [],
+    }]
 });
 
 module.exports = mongoose.model('Posts', PostSchema);

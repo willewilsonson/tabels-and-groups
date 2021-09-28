@@ -5,8 +5,8 @@ import './Schedule.css';
 const teams = [];
 const gameOrder = [];
 
-const Schedule = ({ id, showSchedule, data }) => {
-    const[roundsQuantity, setRoundsQuantity] = useState(data.teams?.length - 1);
+const Schedule = ({ id, showSchedule, data, group }) => {
+    const[roundsQuantity, setRoundsQuantity] = useState(0);
     const[rounds, setRounds] = useState([]);
 
     // const postGamesToDb = (c) => {
@@ -16,13 +16,17 @@ const Schedule = ({ id, showSchedule, data }) => {
     //     .then(res => console.log(res));
     // };
 
-    useEffect(() => {
-        axios.patch(`posts/${id}`, {
-            matches: rounds,
-        })
-        .then(res => console.log(res));
-        console.log(rounds);
-    }, [rounds])
+    // useEffect(() => {
+    //     data.groups?.map(group => {
+    //         rounds.filter(round => round.group === g)
+    //     })
+    // });
+
+    useState(() => {
+        data.groupSchedule.map(group => setRoundsQuantity(group.matches.length - 1));
+    }, [group]);
+
+
 
     const splitIntoGames = (arr, len) => {
         let chunks = [], i = 0, n = arr.length;

@@ -4,6 +4,22 @@ import './Groups.css'
 import Schedule from './Schedule';
 
 const Groups = ({ id, data, setData, showSchedule }) => {
+    const[matches, setMatches] = useState({
+        group: '',
+        matches: [],
+    });
+
+    const saveGroup = group => {
+        const teamsByGroup = data.teams.filter(team => team.group === group);
+        const groupInDb = data.groupSchedule?.filter(g => g.group !== group);
+
+        groupInDb.push({group: group, matches: teamsByGroup})
+
+        axios.patch(`posts/matches/${id}`, {
+            groupSchedule: groupInDb,
+        })
+        .then(res => setData(res));
+    };
 
     const deleteTeam = e => {
         e.preventDefault();
@@ -50,7 +66,8 @@ const Groups = ({ id, data, setData, showSchedule }) => {
                     </tbody>
                     : '')}
                 </table>
-                {showSchedule ? <Schedule id={id} data={data} setData={setData}/> : ''}
+                <button onClick={() => saveGroup(g)}>Save group</button>
+                {showSchedule ? <Schedule id={id} data={data} setData={setData} group={g}/> : ''}
             </div>
             )}
       </div>

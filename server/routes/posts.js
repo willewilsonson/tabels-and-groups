@@ -23,10 +23,12 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    console.log(req.body.groups, ' grupper');
     const post = new Post({
         title: req.body.title,
         groups: req.body.groups,
-        teams: req.body.teams
+        teams: req.body.teams,
+        groupSchedule: req.body.groupSchedule,
     })
 
     try {
@@ -40,18 +42,32 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         console.log(req.body);
-        // console.log(req.params.id);
         const updatedPost = await Post.updateOne({ _id: req.params.id }, 
             { $set: { 
                 title: req.body.title,
                 groups: req.body.groups,
-                matches: req.body.matches,
             },
             $push: {
                 teams: req.body.teams,
             }
         });
+        console.log(updatedPost);
         res.json(updatedPost)
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.patch('/matches/:id', async (req, res) => {
+    try {
+        console.log(req.body.groupSchedule._id);
+        const updatedPost = await Post.updateOne({ _id: req.params.id }, 
+            { $set: {
+                groupSchedule: req.body.groupSchedule,
+            }
+        })
+        console.log(updatedPost);
+        res.json(updatedPost);
     } catch (err) {
         console.log(err);
     }
@@ -91,3 +107,64 @@ router.get('/matches/:id', (req, res) => {
 // })
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+// router.patch('/matches/:id', async (req, res) => {
+//     try {
+//         // console.log(req.body.groupSchedule.group, ' matcher');
+//         const table = await Post.findById({_id: req.params.id});
+        
+//         let doesTableExist = '';
+
+//         table.groupSchedule.map(group => {
+//             group.group === req.body.groupSchedule.group
+//             ? doesTableExist = group : false;
+//         });
+
+//         const test = await Post.find({_id: req.params.id, group: doesTableExist});
+        
+//         // console.log(doesTableExist, ' grupp');
+
+//         // console.log(req.body.groupSchedule.group, ' grupp');
+//         // console.log(req.body.groupSchedule.matches, ' matcher');
+//         // console.log(req.body.groupSchedule._id);
+
+//         if (doesTableExist !== '') {
+//             const tableGroups = await Post.find({ "groupSchedule._id": req.body.groupSchedule._id });
+//             const newGroupSchedule = tableGroups.filter(g => g.groupSchedule.group !== doesTableExist);
+//             console.log(newGroupSchedule, ' heeej');
+
+//             // console.log('start ', table[0].groupSchedule, ' end');
+
+//             // console.log(table[0].groupSchedule, ' tabell');
+
+//             tableGroups[0].groupSchedule.map(el => newGroupSchedule.push(el));
+//             const updatedPost = await Post.updateOne({ _id: req.params.id }, {
+//                 $set: {
+//                     groupSchedule: newGroupSchedule,
+//                 }
+//             })
+//             console.log(updatedPost);
+//             res.json(updatedPost);
+//         } else {
+//             const updatedPost = await Post.updateOne({ _id: req.params.id }, 
+//                 { $push: { 
+//                     groupSchedule: req.body.groupSchedule,
+//                 },
+//             });
+//             console.log(updatedPost);
+//             res.json(updatedPost);
+//         }
+
+//     } catch (err) {
+//         console.log(err);
+//     }
+// });
