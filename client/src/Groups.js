@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import './Groups.css'
-import Schedule from './Schedule';
+// import Schedule from './Schedule';
 
 const Groups = ({ id, data, setData, showSchedule }) => {
     const[matches, setMatches] = useState({
@@ -67,7 +67,7 @@ const Groups = ({ id, data, setData, showSchedule }) => {
                     : '')}
                 </table>
                 <button onClick={() => saveGroup(g)}>Save group</button>
-                {showSchedule ? <Schedule id={id} data={data} setData={setData} group={g}/> : ''}
+                {/* {showSchedule ? <Schedule id={id} data={data} setData={setData} group={g}/> : ''} */}
             </div>
             )}
       </div>
