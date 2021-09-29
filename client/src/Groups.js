@@ -72,6 +72,6 @@ const Groups = ({ id, data, setData, showSchedule }) => {
             )}
       </div>
     )
-}
+};
 
 export default Groups;
