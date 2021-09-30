@@ -1,6 +1,7 @@
 const express = require('express');
 const { find, update } = require('../models/Post');
 const Post = require('../models/Post');
+var mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -92,8 +93,21 @@ router.patch('/deleteTeam/:id', async (req, res) => {
 
 router.patch('/team/:id', async (req, res) => {
     try {
+        // const id = mongoose.Types.ObjectId(req.body[0]._id);
         const table = await Post.find({ _id: req.params.id });
+        const updatedTeams = [];
+
+        console.log(table[0].teams[0]._id.toString() !== req.body[0]._id);
         
+        const removeTeams = table[0].teams.filter(oldTeam => oldTeam._id.toString() !== req.body[0]._id && oldTeam._id.toString() !== req.body[1]._id);
+        updatedTeams.push(...removeTeams, req.body[0], req.body[1]);
+
+        const updatedPost = await Post.updateOne({ _id: req.params.id }, {
+            $set: {
+                teams: updatedTeams,
+            }
+        })
+        res.json(updatedPost);
     } catch (err) {
         console.log(err);
     }

@@ -26,12 +26,12 @@ const Schedule = ({ id, showSchedule, data, group, key }) => {
     };
 
     useEffect(() => {
-        const length = group.matches.length;
+        const length = group.teams.length;
         const half = length / 2;
         if (teamsGroupOne.length === 0) {
-            setTeamsGroupOne([...teamsGroupOne, ...group.matches.slice(0, length / 2)]);
-            setTeamsGroupTwo([...teamsGroupTwo, ...group.matches.slice(half, length)]);
-            setRoundsQuantity(group.matches.length - 1)
+            setTeamsGroupOne([...teamsGroupOne, ...group.teams.slice(0, length / 2)]);
+            setTeamsGroupTwo([...teamsGroupTwo, ...group.teams.slice(half, length)]);
+            setRoundsQuantity(group.teams.length - 1)
         };
     }, [showSchedule]);
 

@@ -13,7 +13,7 @@ const Groups = ({ id, data, setData, showSchedule }) => {
         const teamsByGroup = data.teams.filter(team => team.group === group);
         const groupInDb = data.groupSchedule?.filter(g => g.group !== group);
 
-        groupInDb.push({group: group, matches: teamsByGroup})
+        groupInDb.push({group: group, teams: teamsByGroup, matches: []})
 
         axios.patch(`posts/matches/${id}`, {
             groupSchedule: groupInDb,
@@ -64,7 +64,7 @@ const Groups = ({ id, data, setData, showSchedule }) => {
                             </td>
                         </tr>
                     </tbody>
-                    : '')}
+                    : false)}
                 </table>
                 <button onClick={() => saveGroup(g)}>Save group</button>
                 {/* {showSchedule ? <Schedule id={id} data={data} setData={setData} group={g}/> : ''} */}

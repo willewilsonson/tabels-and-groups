@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import './Game.css';
 
-const Game = ({ id, teams }) => {
+const Game = ({ id, teams, setData }) => {
     const[score, setScore] = useState({
         homeTeamScore: NaN,
         awayTeamScore: NaN,
@@ -21,19 +21,28 @@ const Game = ({ id, teams }) => {
                 teamName: score.homeTeam.teamName,
                 playedGames: score.homeTeam.playedGames + 1,
                 wins: score.homeTeam.wins + 1,
+                draws: score.homeTeam.draws,
+                losses: score.homeTeam.losses,
                 scoredGoals: score.homeTeam.scoredGoals + score.homeTeamScore,
                 concededGoals: score.homeTeam.concededGoals + score.awayTeamScore,
+                goalDifference: score.homeTeam.goalDifference + (score.homeTeam - score.awayTeam),
                 points: score.homeTeam.points + 3,
+                group: score.homeTeam.group,
                 _id: score.homeTeam._id,
             }, {
                 teamName: score.awayTeam.teamName,
                 playedGames: score.awayTeam.playedGames + 1,
-                wins: score.awayTeam.losses + 1,
+                wins: score.awayTeam.wins + 1,
+                draws: score.awayTeam.draws,
+                losses: score.awayTeam.losses,
                 scoredGoals: score.awayTeam.scoredGoals + score.awayTeamScore,
                 concededGoals: score.awayTeam.concededGoals + score.homeTeamScore,
+                goalDifference: score.awayTeam.goalDifference + (score.awayTeam - score.homeTeam),
+                points: score.awayTeam.points + 3,
+                group: score.awayTeam.group,
                 _id: score.awayTeam._id,
-
             }])
+            .then(res => setData(res));
         }
         if (index === 1) {
             console.log('borta');
@@ -41,22 +50,45 @@ const Game = ({ id, teams }) => {
                 teamName: score.awayTeam.teamName,
                 playedGames: score.awayTeam.playedGames + 1,
                 wins: score.awayTeam.wins + 1,
+                draws: score.awayTeam.draws,
+                losses: score.awayTeam.losses,
                 scoredGoals: score.awayTeam.scoredGoals + score.awayTeamScore,
                 concededGoals: score.awayTeam.concededGoals + score.homeTeamScore,
+                goalDifference: score.awayTeam.goalDifference + (score.awayTeam - score.homeTeam),
                 points: score.awayTeam.points + 3,
-                _id: score.homeTeam._id,
+                group: score.awayTeam.group,
+                _id: score.awayTeam._id,
             }, {
                 teamName: score.homeTeam.teamName,
                 playedGames: score.homeTeam.playedGames + 1,
-                wins: score.homeTeam.losses + 1,
+                wins: score.homeTeam.wins + 1,
+                draws: score.homeTeam.draws,
+                losses: score.homeTeam.losses,
                 scoredGoals: score.homeTeam.scoredGoals + score.homeTeamScore,
                 concededGoals: score.homeTeam.concededGoals + score.awayTeamScore,
-                _id: score.awayTeam._id,
+                goalDifference: score.homeTeam.goalDifference + (score.homeTeam - score.awayTeam),
+                points: score.homeTeam.points + 3,
+                group: score.homeTeam.group,
+                _id: score.homeTeam._id,
             }])
+            .then(res => setData(res));
         }
     };
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (score.homeTeamScore === score.awayTeamScore) {
+    //         draw();
+    //     }
+    //     if (score.homeTeamScore > score.awayTeamScore) {
+    //         win(0);
+    //     }
+    //     if (score.awayTeamScore > score.homeTeamScore) {
+    //         win(1);
+    //     }
+    // }, [score]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (score.homeTeamScore === score.awayTeamScore) {
             draw();
         }
@@ -66,7 +98,7 @@ const Game = ({ id, teams }) => {
         if (score.awayTeamScore > score.homeTeamScore) {
             win(1);
         }
-    }, [score])
+    };
 
     const homeOrAwayTeam = (i, team, event) => {
         if (i === 0) {
@@ -89,7 +121,7 @@ const Game = ({ id, teams }) => {
         <div className="game">
             {teams?.map((team, i) => 
                 <div className="game__game">
-                    <form className="game__game">
+                    <form onSubmit={handleSubmit} className="game__game">
                         {i === 0 ? <p>{team.teamName}</p>: ''}
                         <input
                             id={i}
@@ -100,6 +132,7 @@ const Game = ({ id, teams }) => {
                             value={score[i]}
                         ></input>
                         {i === 0 ? <span> - </span>: <p>{team.teamName}</p>}
+                        {i === 1 ? <button>Done</button> : ''}
                     </form>
                 </div>)}
         </div>

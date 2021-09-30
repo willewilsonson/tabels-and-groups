@@ -17,6 +17,7 @@ const PostSchema = mongoose.Schema({
     }],
     groupSchedule: [{
         group: String,
+        teams: [],
         matches: [],
     }]
 });
