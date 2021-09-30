@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Schedule.css';
-import Groups from './Groups';
+import Game from './Game';
 
 const Schedule = ({ id, showSchedule, data, group, key }) => {
     const[roundsQuantity, setRoundsQuantity] = useState(0);
@@ -65,7 +65,8 @@ const Schedule = ({ id, showSchedule, data, group, key }) => {
 
     return(
         <div className="schedule">
-            <div>{rounds?.map((team, i) => <p key={i}>{team[0].teamName} - {team[1].teamName}</p>)}</div>
+            {/* <div>{rounds?.map((team, i) => <p key={i}>{team[0].teamName} - {team[1].teamName}</p>)}</div> */}
+            {rounds.map((teams, i) => <Game id={id} teams={teams}/>)}
         </div>
     )
 };

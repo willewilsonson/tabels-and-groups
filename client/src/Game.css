@@ -1,0 +1,16 @@
+.game {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.game__game {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.game__game input, span {
+    height: 20px;
+    margin: auto;
+}

@@ -90,80 +90,45 @@ router.patch('/deleteTeam/:id', async (req, res) => {
     }
 });
 
+router.patch('/team/:id', async (req, res) => {
+    try {
+        const table = await Post.find({ _id: req.params.id });
+        
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 router.get('/matches/:id', (req, res) => {
 
 });
 
-// router.patch('team/:id', async (res, req) => {
-//     try {
-//         const newTeam = await Post.updateOne({ _id: req.params.id }, { $set: {
-//             teams: req.body.teams,
-//             }
-//         })
-//         res.json(newTeam);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// })
+
 
 module.exports = router;
 
-
-
-
-
-
-
-
-
-
-// router.patch('/matches/:id', async (req, res) => {
+// router.patch('/team/:id', async (req, res) => {
+//     // const hitta = Post.find(req.body[0]._id);
 //     try {
-//         // console.log(req.body.groupSchedule.group, ' matcher');
-//         const table = await Post.findById({_id: req.params.id});
-        
-//         let doesTableExist = '';
-
-//         table.groupSchedule.map(group => {
-//             group.group === req.body.groupSchedule.group
-//             ? doesTableExist = group : false;
-//         });
-
-//         const test = await Post.find({_id: req.params.id, group: doesTableExist});
-        
-//         // console.log(doesTableExist, ' grupp');
-
-//         // console.log(req.body.groupSchedule.group, ' grupp');
-//         // console.log(req.body.groupSchedule.matches, ' matcher');
-//         // console.log(req.body.groupSchedule._id);
-
-//         if (doesTableExist !== '') {
-//             const tableGroups = await Post.find({ "groupSchedule._id": req.body.groupSchedule._id });
-//             const newGroupSchedule = tableGroups.filter(g => g.groupSchedule.group !== doesTableExist);
-//             console.log(newGroupSchedule, ' heeej');
-
-//             // console.log('start ', table[0].groupSchedule, ' end');
-
-//             // console.log(table[0].groupSchedule, ' tabell');
-
-//             tableGroups[0].groupSchedule.map(el => newGroupSchedule.push(el));
-//             const updatedPost = await Post.updateOne({ _id: req.params.id }, {
-//                 $set: {
-//                     groupSchedule: newGroupSchedule,
-//                 }
-//             })
+//         const updateTeam = async (team) => {
+//             const updatedPost = await Post.updateMany({ _id: team._id }, 
+//                 { $set: {
+//                     teamName: team.teamName,
+//                     playedGames: team.playedGames,
+//                     wins: team.wins,
+//                     draws: team.draws,
+//                     losses: team.losses,
+//                     scoredGoals: team.scoredGoals,
+//                     concededGoals: team.concededGoals,
+//                     goalDifference: team.goalDifference,
+//                     points: team.points,
+//                     group: team.group,
+//                     }
+//                 })
 //             console.log(updatedPost);
 //             res.json(updatedPost);
-//         } else {
-//             const updatedPost = await Post.updateOne({ _id: req.params.id }, 
-//                 { $push: { 
-//                     groupSchedule: req.body.groupSchedule,
-//                 },
-//             });
-//             console.log(updatedPost);
-//             res.json(updatedPost);
-//         }
-
+//         };
+//         req.body.map(async (team) => await updateTeam(team))
 //     } catch (err) {
 //         console.log(err);
 //     }
