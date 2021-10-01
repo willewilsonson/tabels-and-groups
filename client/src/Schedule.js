@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Schedule.css';
 import Game from './Game';
 
-const Schedule = ({ id, showSchedule, data, setData, group, key }) => {
+const Schedule = ({ id, showSchedule, data, setData, group, matches }) => {
     const[roundsQuantity, setRoundsQuantity] = useState(0);
     const[teamsGroupOne, setTeamsGroupOne] = useState([]);
     const[teamsGroupTwo, setTeamsGroupTwo] = useState([]);
@@ -63,7 +63,7 @@ const Schedule = ({ id, showSchedule, data, setData, group, key }) => {
     return(
         <div className="schedule">
             {/* <div>{rounds?.map((team, i) => <p key={i}>{team[0].teamName} - {team[1].teamName}</p>)}</div> */}
-            {rounds.map((teams, i) => <Game id={id} teams={teams} data={data} setData={setData}/>)}
+            {rounds.map((teams, i) => <Game key={i} index={i} id={id} teams={teams} data={data} setData={setData} matches={matches}/>)}
         </div>
     )
 };

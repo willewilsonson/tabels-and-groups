@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import './Game.css';
 
-const Game = ({ id, teams, data, setData }) => {
-    const[played, setPlayed] = useState(false);
+const Game = ({ index, id, teams, data, setData, matches }) => {
+    const[gameId, setGameId] = useState('');
+    const[played, setPlayed] = useState();
     const[score, setScore] = useState({
         homeTeamScore: NaN,
         awayTeamScore: NaN,
@@ -107,6 +108,8 @@ const Game = ({ id, teams, data, setData }) => {
     };
 
     const homeOrAwayTeam = (i, team, event) => {
+        console.log(teams);
+        console.log(index);
         if (i === 0) {
             setScore({
                 ...score, 
@@ -124,16 +127,25 @@ const Game = ({ id, teams, data, setData }) => {
     };
 
     useEffect(() => {
+        console.log(data);
         if(played) {
             axios.patch(`posts/match/${id}`, {
                 teams: [score.homeTeam, score.awayTeam],
-                result: [score.homeTeamScore, score.awayTeamScore],   
+                result: [score.homeTeamScore, score.awayTeamScore],
+                matchId: `group${score.homeTeam.group}-${score.homeTeam.teamName + score.awayTeam.teamName},`
             })
-            .then(res => setData(res));
+            .then(res => {
+                setData(res);
+            });
+            setGameId(`group${score.homeTeam.group}-${score.homeTeam.teamName + score.awayTeam.teamName},`);
             return;
         }
         return;
     }, [played]);
+
+    useEffect(() => {
+        
+    }, [matches]);
 
 
     return(
@@ -158,7 +170,7 @@ const Game = ({ id, teams, data, setData }) => {
                 {teams?.map((team, i) => 
                     <div className={`game__game${played ? '' : ' hide'}`}>
                         {i === 0 ? <p>{`${team.teamName} ${score.homeTeamScore} `}</p>: ''}
-                        {i === 0 ? <span> - </span>: <p>{`${team.teamName} ${score.homeTeamScore} `}</p>}
+                        {i === 0 ? <span> - </span>: <p>{`${team.teamName} ${score.awayTeamScore} `}</p>}
                         {i === 1 ? <button onClick={() => setPlayed(false)}>Edit</button> : ''}
                     </div>
                 )}

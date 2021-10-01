@@ -22,6 +22,7 @@ const PostSchema = mongoose.Schema({
     matches: [{
         teams: Array,
         result: Array,
+        matchId: String,
     }],
 });
 

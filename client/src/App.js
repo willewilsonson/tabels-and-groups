@@ -12,6 +12,7 @@ function App() {
   const[data, setData] = useState({});
   const[showSchedule, setShowSchedule] = useState(false);
   const[updateGroup, setUpdateGroup] = useState(false);
+  const[matches, setMatches] = useState([]);
 
   const handleClick = e => {
     e.preventDefault();
@@ -23,6 +24,11 @@ function App() {
       .then(res => setData(res.data));
   }, [data])
 
+  useEffect(() => {
+    setMatches(data.matches);
+    return;
+  }, [showSchedule]);
+
   return (
     <div className='App'>
       <p>{data.title}</p>
@@ -30,7 +36,7 @@ function App() {
       <TeamForm id={id} data={data} setData={setData}  updateGroup={updateGroup} setUpdateGroup={setUpdateGroup}/>
       <button onClick={(e) => handleClick(e)}>Start tournament</button>
       <Groups id={id} data={data} setData={setData} showSchedule={showSchedule}  updateGroup={updateGroup} setUpdateGroup={setUpdateGroup}/>
-      {showSchedule ? data.groupSchedule?.map((group, i) => <Schedule key={i} id={id} group={group} showSchedule={showSchedule} data={data} setData={setData}/>) 
+      {showSchedule ? data.groupSchedule?.map((group, i) => <Schedule key={i} id={id} group={group} showSchedule={showSchedule} data={data} setData={setData} matches={matches}/>) 
       : ''}
       {/* {showSchedule ? <Schedule showSchedule={showSchedule} data={data}/> : ''} */}
     </div>

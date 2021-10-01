@@ -76,11 +76,11 @@ router.patch('/match/:id', async (req, res) => {
     try {
         const updatedMatches = [];
 
-        console.log(req.body._id, ' reqid');
+        console.log(req.body.matchId, ' reqid');
 
         const table = await Post.find({ _id: req.params.id });
         // const removeMatch = await table[0].matches.filter(match => console.log(match));
-        const removeMatch = await table[0].matches.filter(match => match._id !== req.body._id);
+        const removeMatch = await table[0].matches.filter(match => match.matchId !== req.body.matchId);
         
         console.log(removeMatch, ' remove');
 
