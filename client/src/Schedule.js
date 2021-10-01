@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Schedule.css';
 import Game from './Game';
 
-const Schedule = ({ id, showSchedule, data, group, key }) => {
+const Schedule = ({ id, showSchedule, data, setData, group, key }) => {
     const[roundsQuantity, setRoundsQuantity] = useState(0);
     const[teamsGroupOne, setTeamsGroupOne] = useState([]);
     const[teamsGroupTwo, setTeamsGroupTwo] = useState([]);
@@ -39,9 +39,6 @@ const Schedule = ({ id, showSchedule, data, group, key }) => {
         const array = [...g1, ...g2];
         const n1 = [...g1.slice(0, 1), ...g2.slice(0, 1), ...g1.slice(1, g1.length - 1)];
         const n2 = [...g2.slice(1, g2.length), ...g1.slice(g1.length - 1, g1.length)];
-        // console.log(n1);
-        // console.log(n2);
-        console.log(array);
         setTeamsGroupOne(n1);
         setTeamsGroupTwo(n2);
         return array;
@@ -54,7 +51,7 @@ const Schedule = ({ id, showSchedule, data, group, key }) => {
             setRoundsQuantity(roundsQuantity - 1);
         }
         if (roundsQuantity === 0) {
-            console.log(gameOrder, ' slut');
+            // console.log(gameOrder, ' slut');
             splitIntoGames(gameOrder, 2);
         }
     }, [roundsQuantity]);
@@ -66,7 +63,7 @@ const Schedule = ({ id, showSchedule, data, group, key }) => {
     return(
         <div className="schedule">
             {/* <div>{rounds?.map((team, i) => <p key={i}>{team[0].teamName} - {team[1].teamName}</p>)}</div> */}
-            {rounds.map((teams, i) => <Game id={id} teams={teams}/>)}
+            {rounds.map((teams, i) => <Game id={id} teams={teams} data={data} setData={setData}/>)}
         </div>
     )
 };

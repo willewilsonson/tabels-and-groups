@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import './Groups.css'
 // import Schedule from './Schedule';
 
-const Groups = ({ id, data, setData, showSchedule }) => {
-    const[matches, setMatches] = useState({
-        group: '',
-        matches: [],
-    });
+const Groups = ({ id, data, setData, showSchedule, updateGroup, setUpdateGroup }) => {
+    const[groupLength, setGroupLength] = useState([data.teams]);
 
-    const saveGroup = group => {
+    useEffect(() => {
+        console.log(groupLength);
+    }, [groupLength]);
+
+    const saveGroup = (group) => {
+        console.log(updateGroup);
+        console.log(data.teams);
         const teamsByGroup = data.teams.filter(team => team.group === group);
         const groupInDb = data.groupSchedule?.filter(g => g.group !== group);
 
@@ -18,8 +21,15 @@ const Groups = ({ id, data, setData, showSchedule }) => {
         axios.patch(`posts/matches/${id}`, {
             groupSchedule: groupInDb,
         })
-        .then(res => setData(res));
+        .then(res => setData(res))
+        .then(setUpdateGroup(false));
+        console.log(data.teams);
+        console.log(updateGroup);
     };
+
+    useEffect(() => {
+        console.log(updateGroup);
+    }, [updateGroup]);
 
     const deleteTeam = e => {
         e.preventDefault();
@@ -27,28 +37,34 @@ const Groups = ({ id, data, setData, showSchedule }) => {
         axios.patch(`posts/deleteTeam/${id}`, {
           teams: e.target.value,
         })
-        .then(res => setData(res));
+        .then(res => setData(res))
+        .then(setUpdateGroup(true));
       }
 
-    return(
-        <div>Groups: 
-            {data.groups?.map((g, i) => 
-            <div key={i}>
-                <span className="group-name">{g}</span>
-                <table className='group-container'>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>W</th>
-                            <th>D</th>
-                            <th>L</th>
-                            <th>SG</th>
-                            <th>CG</th>
-                            <th>GD</th>
-                            <th>P</th>
-                        </tr>
-                    </thead>
-                    {data.teams?.map((team, i) => team.group === g
+    const createGroups = (g, i) => {
+    return <div key={i}>
+        <span className="group-name">{g}</span>
+        <table className='group-container'>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>SG</th>
+                    <th>CG</th>
+                    <th>GD</th>
+                    <th>P</th>
+                </tr>
+            </thead>
+            {data.teams?.map((team, i) => createTeamsForGroup(g, team, i))}
+        </table>
+        <button onClick={() => saveGroup(g)}>Refresh Schedule</button>
+    </div>
+    };
+
+      const createTeamsForGroup = (g, team, i) => {
+        return team.group === g
                     ? <tbody key={i}>
                         <tr className='team-container'>
                             <td>{team.teamName}</td>
@@ -64,12 +80,12 @@ const Groups = ({ id, data, setData, showSchedule }) => {
                             </td>
                         </tr>
                     </tbody>
-                    : false)}
-                </table>
-                <button onClick={() => saveGroup(g)}>Save group</button>
-                {/* {showSchedule ? <Schedule id={id} data={data} setData={setData} group={g}/> : ''} */}
-            </div>
-            )}
+                    : false;
+      };
+
+    return(
+        <div>Groups: 
+            {data.groups?.map((g, i) => createGroups(g, i))}
       </div>
     )
 };

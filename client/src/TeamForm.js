@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const TeamForm = ({ id, data, setData }) => {
+const TeamForm = ({ id, data, setData, setUpdateGroup }) => {
     const[team, setTeam] = useState({
         teamName: '',
         playedGames: 0,
@@ -27,7 +27,8 @@ const TeamForm = ({ id, data, setData }) => {
         axios.patch(`posts/${id}`, {
           teams: team,
         })
-        .then(res => setData(res));
+        .then(res => setData(res))
+        .then(setUpdateGroup(true));
       }
 
     return(

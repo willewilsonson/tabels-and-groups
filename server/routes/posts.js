@@ -97,16 +97,19 @@ router.patch('/team/:id', async (req, res) => {
         const table = await Post.find({ _id: req.params.id });
         const updatedTeams = [];
 
-        console.log(table[0].teams[0]._id.toString() !== req.body[0]._id);
-        
+        console.log(req.body[0]._id, ' reqid');
+        // table[0].teams.map(team => console.log(team._id, ' teamid'));
         const removeTeams = table[0].teams.filter(oldTeam => oldTeam._id.toString() !== req.body[0]._id && oldTeam._id.toString() !== req.body[1]._id);
         updatedTeams.push(...removeTeams, req.body[0], req.body[1]);
+
+        // console.log('start ', updatedTeams, ' slut');
 
         const updatedPost = await Post.updateOne({ _id: req.params.id }, {
             $set: {
                 teams: updatedTeams,
             }
         })
+        console.log(updatedPost);
         res.json(updatedPost);
     } catch (err) {
         console.log(err);
