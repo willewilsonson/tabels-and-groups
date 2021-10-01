@@ -18,8 +18,11 @@ const PostSchema = mongoose.Schema({
     groupSchedule: [{
         group: String,
         teams: [],
-        matches: [],
-    }]
+    }],
+    matches: [{
+        teams: Array,
+        result: Array,
+    }],
 });
 
 module.exports = mongoose.model('Posts', PostSchema);

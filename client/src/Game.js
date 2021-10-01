@@ -124,8 +124,17 @@ const Game = ({ id, teams, data, setData }) => {
     };
 
     useEffect(() => {
-        // console.log(score);
-    }, [score]);
+        if(played) {
+            axios.patch(`posts/match/${id}`, {
+                teams: [score.homeTeam, score.awayTeam],
+                result: [score.homeTeamScore, score.awayTeamScore],   
+            })
+            .then(res => setData(res));
+            return;
+        }
+        return;
+    }, [played]);
+
 
     return(
         <div className="game">

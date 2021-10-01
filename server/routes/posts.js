@@ -61,14 +61,46 @@ router.patch('/:id', async (req, res) => {
 
 router.patch('/matches/:id', async (req, res) => {
     try {
-        console.log(req.body.groupSchedule._id);
         const updatedPost = await Post.updateOne({ _id: req.params.id }, 
             { $set: {
                 groupSchedule: req.body.groupSchedule,
             }
         })
-        console.log(updatedPost);
         res.json(updatedPost);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.patch('/match/:id', async (req, res) => {
+    try {
+        const updatedMatches = [];
+
+        console.log(req.body._id, ' reqid');
+
+        const table = await Post.find({ _id: req.params.id });
+        // const removeMatch = await table[0].matches.filter(match => console.log(match));
+        const removeMatch = await table[0].matches.filter(match => match._id !== req.body._id);
+        
+        console.log(removeMatch, ' remove');
+
+        if (removeMatch.length > 0) {
+            updatedMatches.push(...removeMatch, req.body);
+        }
+        if (removeMatch.length === 0) {
+            updatedMatches.push(req.body);
+        }
+        
+        console.log(updatedMatches, ' after');
+
+        
+        const updatedPost = await Post.updateOne({ _id: req.params.id },
+            { $set: {
+                matches: updatedMatches,
+            }
+        });
+        console.log(updatedPost);
+        res.json(updatedPost)
     } catch (err) {
         console.log(err);
     }
@@ -97,7 +129,6 @@ router.patch('/team/:id', async (req, res) => {
         const table = await Post.find({ _id: req.params.id });
         const updatedTeams = [];
 
-        console.log(req.body[0]._id, ' reqid');
         // table[0].teams.map(team => console.log(team._id, ' teamid'));
         const removeTeams = table[0].teams.filter(oldTeam => oldTeam._id.toString() !== req.body[0]._id && oldTeam._id.toString() !== req.body[1]._id);
         updatedTeams.push(...removeTeams, req.body[0], req.body[1]);
@@ -109,7 +140,6 @@ router.patch('/team/:id', async (req, res) => {
                 teams: updatedTeams,
             }
         })
-        console.log(updatedPost);
         res.json(updatedPost);
     } catch (err) {
         console.log(err);
